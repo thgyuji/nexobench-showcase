@@ -9,7 +9,6 @@
 [![Electron](https://img.shields.io/badge/Electron-44.9.0-47848F?logo=electron&logoColor=white)](https://www.electronjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.16.0-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Monaco Editor](https://img.shields.io/badge/Editor-Monaco%200.52-1E1E1E?logo=visualstudiocode&logoColor=white)](https://microsoft.github.io/monaco-editor/)
-[![Tests Passing](https://img.shields.io/badge/Tests-76%2F76%20Passing-brightgreen?logo=vitest&logoColor=white)](#qualidade-e-testes)
 [![Harnesses](https://img.shields.io/badge/Harnesses-Hermes%20%7C%20OpenCode-8B5CF6)](#harnesses-nativos-sem-simulação)
 [![License](https://img.shields.io/badge/Status-Showcase%20%2F%20Portfolio-blue)](#sobre-este-showcase)
 
@@ -152,30 +151,12 @@ Para uma análise técnica aprofundada de classes, endpoints, ciclo de vida e di
 
 ---
 
-## 🧪 Qualidade e Testes
-
-A base de código conta com uma suíte de testes automatizados rigorosa:
-
-- **76/76 testes passando** (zero falhas e zero testes ignorados).
-- Compatibilidade dupla validada: testada em **Node.js 22.23.2** nativo e no **Node.js 24.22.0** embutido no Electron 44.9.0.
-- Cobertura completa de:
-  - Proteção de escrita em visualizadores binários/SQLite (conferência de SHA-256 antes e depois);
-  - Desvinculação segura de modelos do Monaco e visualizadores;
-  - Integridade da árvore de arquivos e busca profunda com fallback;
-  - Roteamento e streaming multibyte UTF-8;
-  - Recuperação de falhas sintéticas e apresentação no histórico;
-  - Checkpoints Git, isolamento de diretórios e rollback seguro;
-  - Migração de identidade e integridade de perfis desktop.
-
----
-
 ## 📚 Documentação Técnica
 
 Explore os guias detalhados criados para este showcase:
 
 - 📖 **[Catálogo Completo de Funcionalidades (FEATURES.md)](FEATURES.md)**: Detalhamento minucioso de cada controle, atalho de teclado, fluxo de trabalho e recursos.
 - 📐 **[Documento de Arquitetura (ARCHITECTURE.md)](ARCHITECTURE.md)**: Design de software, adaptadores de harness, IPC, protocolo e diagrama de estados.
-- 🛡️ **[Relatório de QA e Segurança (QA-AND-SECURITY.md)](QA-AND-SECURITY.md)**: Auditoria de qualidade, matriz de testes e preservação de dados.
 - 🗺️ **[Roteiro de Novos Harnesses (ROADMAP.md)](ROADMAP.md)**: Especificação para Claude Code, Antigravity e Codex.
 - 🌐 **[Showcase Web Interativo (docs/index.html)](docs/index.html)**: Demonstração interativa desenvolvida para navegação visual e GitHub Pages.
 
@@ -183,15 +164,15 @@ Explore os guias detalhados criados para este showcase:
 
 ## 📌 Sobre este Showcase
 
-O **Worket** é um projeto de alta performance concebido como workbench desktop de última geração para desenvolvimento assistido por agentes de IA. Seu repositório principal de desenvolvimento é proprietário e mantido sob acesso restrito.
+O **Worket** é desenvolvido por **YuLiNi Labs** como workbench desktop de última geração para desenvolvimento assistido por agentes de IA. Seu repositório principal de desenvolvimento é proprietário e mantido sob acesso restrito.
 
-Este repositório de showcase reúne a especificação arquitetural, catálogo funcional, relatórios de auditoria e qualidade, além de uma demonstração interativa completa dos conceitos implementados na **versão 0.3.0**.
+Este repositório de showcase reúne a especificação arquitetural, o catálogo funcional e uma demonstração interativa completa dos conceitos implementados na **versão 0.3.0**.
 
 ---
 
 <div align="center">
 
-Desenvolvido com foco em robustez, respeito aos dados locais e produtividade real para desenvolvedores.
+Desenvolvido por **YuLiNi Labs**.
 
 **Worket** • *The AI Developer's Workbench*
 
