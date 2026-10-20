@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexoBench Showcase — All-in-One Desktop Workbench</title>
+  <link rel="icon" type="image/png" href="../assets/branding/nexobench-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0d0e12;
+      --bg-surface: #14161d;
+      --bg-card: #1a1d26;
+      --bg-card-hover: #212532;
+      --border: #2b3040;
+      --border-accent: #3d455d;
+      --text-main: #f1f3f9;
+      --text-muted: #9aa2b5;
+      --primary: #8b5cf6;
+      --primary-glow: rgba(139, 92, 246, 0.25);
+      --secondary: #3b82f6;
+      --secondary-glow: rgba(59, 130, 246, 0.25);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --font-ui: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header & Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(13, 14, 18, 0.85);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    .btn-github {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-github:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 250px;
+      background: radial-gradient(circle, var(--primary-glow) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 80%);
+      filter: blur(60px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 9999px;
+      color: #c4b5fd;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span.gradient {
+      background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(139, 92, 246, 0.5);
+    }
+
+    .btn-secondary {
+      padding: 12px 28px;
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+    }
+
+    /* Key Badges Bar */
+    .metrics-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Interactive Showcase Tour */
+    .showcase-tour {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 24px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .tabs-wrapper {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 10px 18px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: var(--bg-card);
+    }
+
+    .tab-btn.active {
+      color: white;
+      background: var(--bg-card);
+      border-color: var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .tour-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .tour-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(20, 22, 29, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .tour-info h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .tour-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .tour-tags {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .tag.hermes { color: #c4b5fd; border-color: rgba(139, 92, 246, 0.4); }
+    .tag.opencode { color: #93c5fd; border-color: rgba(59, 130, 246, 0.4); }
+
+    .tour-image-container {
+      position: relative;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .tour-image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    .tour-features-list {
+      padding: 24px 28px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-point {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .feature-point-icon {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(139, 92, 246, 0.2);
+      color: #c4b5fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+
+    .feature-point h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .feature-point p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Core Pillars Grid */
+    .pillars-section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .pillar-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+    }
+
+    .pillar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .pillar-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .pillar-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Architecture Flow Box */
+    .arch-section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 40px 32px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .arch-code-box {
+      background: #090a0d;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      color: #93c5fd;
+      overflow-x: auto;
+      margin-top: 24px;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 24px 40px;
+      background: var(--bg-surface);
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-main);
+    }
+
+    .footer-copy {
+      color: #6b7280;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <img src="../assets/branding/nexobench-icon.png" alt="NexoBench Icon">
+        <span>NexoBench</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#tour">Tour Visual</a></li>
+        <li><a href="#funcionalidades">Funcionalidades</a></li>
+        <li><a href="#arquitetura">Arquitetura</a></li>
+        <li><a href="#seguranca">QA & Segurança</a></li>
+      </ul>
+      <a href="https://github.com/thgyuji/nexobench" target="_blank" class="btn-github">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub Oficial
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="badge-pill">
+      <span>⚡ NexoBench v0.2.2</span>
+      <span>•</span>
+      <span>Harnesses Nativos Reais</span>
+    </div>
+    <h1>O Workbench Desktop para a Era do <span class="gradient">Desenvolvimento por IA</span></h1>
+    <p>
+      Editor Monaco, múltiplos agentes, terminal PTY, Git visual com checkpoints e transplante inteligente de contexto num único espaço de trabalho de alta performance. Sem simulações ou prompts vazios.
+    </p>
+    <div class="hero-actions">
+      <a href="#tour" class="btn-primary">Explorar Demonstração Visual</a>
+      <a href="https://github.com/thgyuji/nexobench" target="_blank" class="btn-secondary">Acessar Repositório</a>
+    </div>
+
+    <!-- Quick Metrics -->
+    <div class="metrics-bar">
+      <div class="metric-item">
+        <span class="metric-value">70 / 70</span>
+        <span class="metric-label">Testes Aprovados</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-value">0%</span>
+        <span class="metric-label">Simulação por Prompt</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-value">8</span>
+        <span class="metric-label">Terminais PTY Simultâneos</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-value">5</span>
+        <span class="metric-label">Temas Escuros Nativos</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-value">Electron + Node</span>
+        <span class="metric-label">Sandbox Isolado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Tour Section -->
+  <section id="tour" class="showcase-tour">
+    <div class="section-title">
+      <h2>Tour Visual Interativo</h2>
+      <p>Navegue pelas telas reais do produto e veja cada recurso em funcionamento.</p>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-wrapper" id="tour-tabs">
+      <button class="tab-btn active" data-tab="work">1. Modo Work (Editor + Chat)</button>
+      <button class="tab-btn" data-tab="chat">2. Modo Chat Amplo</button>
+      <button class="tab-btn" data-tab="arena">3. Modo Arena (Agente vs Agente)</button>
+      <button class="tab-btn" data-tab="terminal">4. Terminal PTY Integrado</button>
+      <button class="tab-btn" data-tab="activity">5. Inspetor de Ferramentas & Raciocínio</button>
+      <button class="tab-btn" data-tab="permissions">6. Portão de Permissões</button>
+      <button class="tab-btn" data-tab="concurrency">7. Concorrência & Conflitos</button>
+      <button class="tab-btn" data-tab="protected">8. Visualizadores Protegidos</button>
+      <button class="tab-btn" data-tab="search">9. Busca Profunda Universal</button>
+    </div>
+
+    <!-- Tour Card -->
+    <div class="tour-card">
+      <div class="tour-header">
+        <div class="tour-info">
+          <h3 id="tour-title">Modo Work: O Workspace de Engenharia</h3>
+          <p id="tour-desc">Árvore de arquivos com badges Git, Monaco Editor com abas dedicadas e conversa do agente lado a lado.</p>
+        </div>
+        <div class="tour-tags" id="tour-tags">
+          <span class="tag hermes">Hermes</span>
+          <span class="tag opencode">OpenCode</span>
+          <span class="tag">Monaco 0.52</span>
+        </div>
+      </div>
+
+      <div class="tour-image-container">
+        <img id="tour-img" src="../assets/screenshots/01-work-mode.jpg" alt="Demonstração do NexoBench">
+      </div>
+
+      <div class="tour-features-list" id="tour-features">
+        <div class="feature-point">
+          <div class="feature-point-icon">✓</div>
+          <div>
+            <h4>Monaco Editor Profissional</h4>
+            <p>Fontes JetBrains Mono, Monaco Diff em tempo real contra Git HEAD e atalhos customizados.</p>
+          </div>
+        </div>
+        <div class="feature-point">
+          <div class="feature-point-icon">✓</div>
+          <div>
+            <h4>Seleção Cirúrgica → Chat</h4>
+            <p>Atalho Ctrl+Shift+L anexa linhas selecionadas ao chat com notação @arquivo:L1-L20.</p>
+          </div>
+        </div>
+        <div class="feature-point">
+          <div class="feature-point-icon">✓</div>
+          <div>
+            <h4>Divisórias com Memória</h4>
+            <p>Painéis ajustáveis por arraste ou teclado com persistência da geometria salva no host.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Pillars -->
+  <section id="funcionalidades" class="pillars-section">
+    <div class="section-title">
+      <h2>Pilares da Experiência NexoBench</h2>
+      <p>Desenvolvido com foco absoluto em produtividade, segurança de dados e fidelidade aos agentes.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="pillar-card">
+        <div class="pillar-icon">🤖</div>
+        <h3>Harnesses Nativos Oficiais</h3>
+        <p>
+          Nada de simulações com prompts superficiais. Hermes roda via <code>hermes serve</code> (JSON-RPC/WebSocket) e OpenCode via REST/SSE oficial. Suas credenciais, ferramentas e memória permanecem sob seu controle.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">⚔️</div>
+        <h3>Modo Arena Comparativo</h3>
+        <p>
+          Avalie respostas de dois agentes em tempo real frente a frente no mesmo projeto. Compare estratégias de raciocínio, saídas de ferramentas, consumo de tokens e decisões de arquitetura.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">🔄</div>
+        <h3>Motor de Handoff GLM</h3>
+        <p>
+          Transfira o trabalho de um agente para outro sem perda de contexto. O compilador gera um dossiê JSON estruturado e lê os arquivos essenciais atuais diretamente do disco para uma sessão nativa limpa.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">🛡️</div>
+        <h3>Checkpoints de Segurança Git</h3>
+        <p>
+          Antes de qualquer turno de agente, um snapshot Git transacional é criado automaticamente. Se o agente cometer erros, desfaça tudo com confirmação e rollback de 1 clique.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">🔒</div>
+        <h3>Proteção contra Corrupção</h3>
+        <p>
+          Visualizadores de imagem, bancos SQLite e binários bloqueiam salvamentos textuais involuntários com HTTP 415. Watcher de disco previne perda de rascunhos com resolução de conflitos em 3 vias.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">💻</div>
+        <h3>Terminal PTY & Git Visual</h3>
+        <p>
+          Até 8 terminais simultâneos com detecção automática de scripts do package.json e alvos do Makefile, acompanhados de painel Git visual completo com commits gerados por IA.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Overview -->
+  <section id="arquitetura" class="arch-section">
+    <div class="section-title" style="text-align: left; margin-bottom: 20px;">
+      <h2>Arquitetura e Isolamento Desktop</h2>
+      <p>Design de software seguro, offline-first e com limites estritos de privilégio.</p>
+    </div>
+    <p style="color: var(--text-muted); font-size: 1rem;">
+      O NexoBench desacopla totalmente a camada de interface (renderizada em sandbox Electron sob a origem estável <code>nexobench://app</code>) do serviço local de execução. O serviço roda em porta dinâmica no loopback (<code>127.0.0.1</code>) e autentica requisições com chave de sessão efêmera gerada por processo.
+    </p>
+
+    <div class="arch-code-box">
+┌─────────────────────────────────────────────────────────────┐
+│                 NexoBench Desktop Architecture               │
+│                                                             │
+│  [ Electron Renderer ] ──(IPC Bridge)──► [ Electron Main ]   │
+│           │                                     │           │
+│           │ (nexobench://app)                   │ (Spawn)   │
+│           ▼                                     ▼           │
+│  [ Protected Viewers / Monaco ]         [ Local Node Daemon]│
+│                                                 │           │
+│                                                 ▼           │
+│                                       [ HarnessAdapter ]    │
+│                                        ├── Hermes (WS/RPC)  │
+│                                        └── OpenCode (REST)  │
+└─────────────────────────────────────────────────────────────┘
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="seguranca">
+    <div class="footer-content">
+      <div class="brand">
+        <img src="../assets/branding/nexobench-icon.png" alt="NexoBench Icon">
+        <span>NexoBench Showcase</span>
+      </div>
+      <div class="footer-links">
+        <a href="../README.md">README</a>
+        <a href="../FEATURES.md">Catálogo de Funcionalidades</a>
+        <a href="../ARCHITECTURE.md">Arquitetura de Software</a>
+        <a href="../QA-AND-SECURITY.md">Relatório de QA & Segurança</a>
+        <a href="../ROADMAP.md">Roadmap de Expansão</a>
+        <a href="https://github.com/thgyuji/nexobench" target="_blank">Repositório Oficial no GitHub</a>
+      </div>
+      <p class="footer-copy">
+        NexoBench — All-in-one desktop workbench with separate native harnesses. Desenvolvido para engenharia de software de alta performance.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Interactive Tour Script -->
+  <script>
+    const tourData = {
+      work: {
+        title: "Modo Work: O Workspace de Engenharia",
+        desc: "Árvore de arquivos com badges Git, Monaco Editor com abas dedicadas e conversa do agente lado a lado.",
+        img: "../assets/screenshots/01-work-mode.jpg",
+        tags: [
+          { text: "Hermes", class: "hermes" },
+          { text: "OpenCode", class: "opencode" },
+          { text: "Monaco 0.52", class: "" }
+        ],
+        features: [
+          { title: "Monaco Editor Profissional", desc: "Fontes JetBrains Mono, Monaco Diff em tempo real contra Git HEAD e atalhos customizados." },
+          { title: "Seleção Cirúrgica → Chat", desc: "Atalho Ctrl+Shift+L anexa linhas selecionadas ao chat com notação @arquivo:L1-L20." },
+          { title: "Divisórias com Memória", desc: "Painéis ajustáveis por arraste ou teclado com persistência da geometria salva no host." }
+        ]
+      },
+      chat: {
+        title: "Modo Chat Amplo & Multi-Projetos",
+        desc: "Visão ampla de conversação, histórico agrupado por projeto e telemetria de tokens e custos em USD.",
+        img: "../assets/screenshots/02-chat-mode.jpg",
+        tags: [
+          { text: "Projetos Isolados", class: "opencode" },
+          { text: "Telemetria USD", class: "hermes" },
+          { text: "Histórico Seguro", class: "" }
+        ],
+        features: [
+          { title: "Projetos sem Trocar Workspace", desc: "Fixe pastas adicionais na barra lateral e inicie sessões nativas apontando diretamente para elas." },
+          { title: "Auditoria Financeira Transparente", desc: "Controle em tempo real de tokens consumidos e custo exato em dólares da sessão." },
+          { title: "Inserir no Editor com 1 Clique", desc: "Blocos de código gerados pelo agente podem ser copiados ou injetados cirurgicamente no arquivo." }
+        ]
+      },
+      arena: {
+        title: "Modo Arena: Comparação Agente vs Agente",
+        desc: "Compare simultaneamente dois modelos e harnesses em execução paralela na mesma tarefa de programação.",
+        img: "../assets/screenshots/03-arena-mode.jpg",
+        tags: [
+          { text: "Head-to-Head", class: "hermes" },
+          { text: "Benchmarking", class: "opencode" },
+          { text: "Zero Simulação", class: "" }
+        ],
+        features: [
+          { title: "Execução Paralela Real", desc: "Painel primário e secundário conectados aos respectivos daemons nativos em loopback." },
+          { title: "Avaliação de Raciocínio", desc: "Compare qual agente formulou o melhor plano e chamou as ferramentas adequadas." },
+          { title: "Sincronização de Sessões", desc: "Seletor independente em cada coluna com persistência compartilhada de estado." }
+        ]
+      },
+      terminal: {
+        title: "Terminal PTY Integrado & Comandos Rápidos",
+        desc: "Terminal Linux real com node-pty, xterm.js, até 8 instâncias e detecção automática de scripts.",
+        img: "../assets/screenshots/04-integrated-terminal.jpg",
+        tags: [
+          { text: "node-pty 1.1", class: "" },
+          { text: "xterm.js 6.0", class: "opencode" },
+          { text: "Autodetecção", class: "hermes" }
+        ],
+        features: [
+          { title: "Até 8 Terminais Concorrentes", desc: "Abas de terminal independentes rodando dentro da raiz do projeto." },
+          { title: "Detecção de package.json & Makefile", desc: "Varre scripts npm, yarn, pnpm, bun e alvos de Makefile automaticamente." },
+          { title: "Shell Integration", desc: "Rastreia o comando em execução e código de saída sem interferir na sessão do usuário." }
+        ]
+      },
+      activity: {
+        title: "Inspetor de Atividade, Raciocínio & Ferramentas",
+        desc: "Visibilidade total do raciocínio interno do agente, parâmetros de entrada e saídas de ferramentas.",
+        img: "../assets/screenshots/05-agent-activity-inspector.jpg",
+        tags: [
+          { text: "Chain of Thought", class: "hermes" },
+          { text: "Tool Calling", class: "opencode" },
+          { text: "Auditoria", class: "" }
+        ],
+        features: [
+          { title: "Trabalhou por Xs", desc: "Bloco colapsável exibindo a duração precisa de processamento do agente." },
+          { title: "Inspeção de I/O de Ferramentas", desc: "Visualize entradas JSON e retornos completos de comandos read, write e bash." },
+          { title: "Subagentes Rastreados", desc: "Subagentes spawnados aparecem aninhados à conversa mãe com histórico sob demanda." }
+        ]
+      },
+      permissions: {
+        title: "Portão de Permissões & Segurança em Tempo Real",
+        desc: "Controle estrito de execução onde nenhuma ferramenta sensível é executada sem autorização humana.",
+        img: "../assets/screenshots/06-native-permission-gate.jpg",
+        tags: [
+          { text: "Segurança Ativa", class: "hermes" },
+          { text: "Aprovação Humana", class: "opencode" },
+          { text: "Controle de Acesso", class: "" }
+        ],
+        features: [
+          { title: "Banner Interativo de Autorização", desc: "Permita uma vez ou recuse a execução de comandos ou leitura de arquivos sensíveis." },
+          { title: "Interrupção Imediata", desc: "Botão Parar cancela a execução do harness imediatamente em caso de loop ou erro." },
+          { title: "Políticas Nativas", desc: "Respeita as regras e configurações de permissão oficiais de cada agente." }
+        ]
+      },
+      concurrency: {
+        title: "Proteção contra Conflito de Arquivos em Disco",
+        desc: "Prevenção ativa contra sobrescrita de rascunhos sujos com resolução de conflitos em 3 vias.",
+        img: "../assets/screenshots/07-concurrency-conflict-guard.jpg",
+        tags: [
+          { text: "File Watcher", class: "opencode" },
+          { text: "Resolução em 3 Vias", class: "hermes" },
+          { text: "Zero Perda de Código", class: "" }
+        ],
+        features: [
+          { title: "Detecção de Mudança Externa", desc: "Identifica instantaneamente se um agente ou processo externo alterou o arquivo no disco." },
+          { title: "Comparar, Usar Disco ou Manter", desc: "Interface clara com diff interativo para decidir como mesclar as alterações." },
+          { title: "Bloqueio Backend HTTP 409", desc: "A rota de gravação rejeita alterações concorrentes com conflito explícito." }
+        ]
+      },
+      protected: {
+        title: "Visualizadores Protegidos (SQLite, Binários & Imagens)",
+        desc: "Visualização especializada que desvincula o editor de texto e impede corrupção de arquivos binários.",
+        img: "../assets/screenshots/08-protected-sqlite-viewer.jpg",
+        tags: [
+          { text: "SQLite Seguro", class: "hermes" },
+          { text: "Bloqueio HTTP 415", class: "opencode" },
+          { text: "Imutabilidade", class: "" }
+        ],
+        features: [
+          { title: "Inspeção de SQLite e Binários", desc: "Visualiza tabelas de banco de dados e metadados de arquivos sem tentar tratá-los como texto." },
+          { title: "Bloqueio de Salvamento Textual", desc: "Atalhos de salvamento (Ctrl+S) são desativados e o backend recusa gravações com HTTP 415." },
+          { title: "SHA-256 Comprovado", desc: "Testes automatizados comprovam integridade de 100% dos bytes antes e após tentativas de escrita." }
+        ]
+      },
+      search: {
+        title: "Busca Profunda Universal (`Ctrl+K`)",
+        desc: "Encontra arquivos profundos no workspace e sessões salvas sem depender da árvore de diretórios.",
+        img: "../assets/screenshots/09-deep-search-palette.jpg",
+        tags: [
+          { text: "Ctrl + K", class: "" },
+          { text: "Ripgrep Híbrido", class: "hermes" },
+          { text: "Catálogo Cacheado", class: "opencode" }
+        ],
+        features: [
+          { title: "Busca Rápida Desacoplada", desc: "Localiza arquivos em subníveis profundos mesmo com todas as pastas recolhidas." },
+          { title: "Motor Híbrido com Fallback", desc: "Usa ripgrep nativo quando instalado ou varredura interna inteligente ignorando node_modules." },
+          { title: "Invalidação por Mutação", desc: "Criação, renomeação ou exclusão de arquivos invalidam o cache instantaneamente." }
+        ]
+      }
+    };
+
+    const tabsContainer = document.getElementById('tour-tabs');
+    const titleEl = document.getElementById('tour-title');
+    const descEl = document.getElementById('tour-desc');
+    const imgEl = document.getElementById('tour-img');
+    const tagsEl = document.getElementById('tour-tags');
+    const featuresEl = document.getElementById('tour-features');
+
+    tabsContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tab-btn');
+      if (!btn) return;
+      
+      const tabKey = btn.dataset.tab;
+      const data = tourData[tabKey];
+      if (!data) return;
+
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      titleEl.textContent = data.title;
+      descEl.textContent = data.desc;
+      imgEl.style.opacity = '0.3';
+      
+      setTimeout(() => {
+        imgEl.src = data.img;
+        imgEl.alt = data.title;
+        imgEl.style.opacity = '1';
+      }, 150);
+
+      tagsEl.innerHTML = data.tags.map(t => `<span class="tag ${t.class}">${t.text}</span>`).join('');
+      featuresEl.innerHTML = data.features.map(f => `
+        <div class="feature-point">
+          <div class="feature-point-icon">✓</div>
+          <div>
+            <h4>${f.title}</h4>
+            <p>${f.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    });
+  </script>
+</body>
+</html>
