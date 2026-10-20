@@ -1,6 +1,6 @@
-# NexoBench — Catálogo Completo de Funcionalidades e Recursos
+# Worket — Catálogo Completo de Funcionalidades e Recursos
 
-Este documento apresenta a especificação detalhada de **cada componente, controle, mecanismo e funcionalidade** do NexoBench, descrevendo seu propósito, comportamento e implementação.
+Este documento apresenta a especificação detalhada de **cada componente, controle, mecanismo e funcionalidade** do Worket, descrevendo seu propósito, comportamento e implementação.
 
 ---
 
@@ -27,7 +27,7 @@ Este documento apresenta a especificação detalhada de **cada componente, contr
 
 ## 1. Modos de Trabalho e Espaço de Trabalho
 
-O NexoBench disponibiliza três layouts de interface otimizados no topo da janela, compartilhando o mesmo estado de sessões e rascunhos:
+O Worket disponibiliza três layouts de interface otimizados no topo da janela, compartilhando o mesmo estado de sessões e rascunhos:
 
 ### 1.1. Modo Work (Ambiente de Edição Contínua)
 - **Composição:** Árvore de arquivos à esquerda (Explorer), abas de código ao centro (Monaco Editor) e conversa com o agente ativo à direita.
@@ -50,7 +50,7 @@ O NexoBench disponibiliza três layouts de interface otimizados no topo da janel
 
 ## 2. Editor de Código e Visualizadores Especializados
 
-O NexoBench utiliza o **Monaco Editor 0.52.0** como motor principal de edição textual, complementado por visualizadores customizados para formatos específicos:
+O Worket utiliza o **Monaco Editor 0.52.0** como motor principal de edição textual, complementado por visualizadores customizados para formatos específicos:
 
 ### 2.1. Abas e Gerenciamento de Arquivos Abertos
 - **Linha Própria de Abas:** As abas têm uma linha dedicada com largura independente, rolando automaticamente para manter a aba ativa sempre visível.
@@ -76,7 +76,7 @@ O NexoBench utiliza o **Monaco Editor 0.52.0** como motor principal de edição 
 
 ## 3. Sistema de Concorrência de Arquivos e Proteção de Rascunhos
 
-Para desenvolvedores trabalhando em conjunto com agentes autônomos que também editam arquivos no disco, o NexoBench implementa um protocolo robusto de concorrência em tempo real:
+Para desenvolvedores trabalhando em conjunto com agentes autônomos que também editam arquivos no disco, o Worket implementa um protocolo robusto de concorrência em tempo real:
 
 1. **File Watcher Nativo:** Arquivos abertos são observados em segundo plano.
 2. **Atualização Transparente de Arquivos Limpos:** Se o arquivo for modificado no disco por um agente externo e o usuário não tiver alterações locais não salvas, o Monaco é atualizado instantaneamente sem incomodar o desenvolvedor.
@@ -113,16 +113,16 @@ Para desenvolvedores trabalhando em conjunto com agentes autônomos que também 
 
 ## 5. Integração de Agentes Nativos (Harnesses Oficiais)
 
-O NexoBench rejeita o padrão comum de "agente simulado" que apenas envia mensagens com um *system prompt* para uma API de chat genérica.
+O Worket rejeita o padrão comum de "agente simulado" que apenas envia mensagens com um *system prompt* para uma API de chat genérica.
 
 ### 5.1. O Conceito de Harness Oficial
 Um **Harness** é o aplicativo oficial do agente instalado pelo usuário:
 - As credenciais pertencem ao agente (chaves da Anthropic, OpenAI, Google, etc. ficam salvas nos arquivos de configuração do próprio agente);
 - A memória de longo prazo, ferramentas nativas de execução de terminal, leitura e escrita de arquivos são executadas pelo motor nativo;
-- O NexoBench conecta-se ao processo via IPC ou loopback restrito a `127.0.0.1`.
+- O Worket conecta-se ao processo via IPC ou loopback restrito a `127.0.0.1`.
 
 ### 5.2. Harness Hermes
-- **Backend Oficial:** O NexoBench inicializa o daemon oficial `hermes serve --isolated --host 127.0.0.1`.
+- **Backend Oficial:** O Worket inicializa o daemon oficial `hermes serve --isolated --host 127.0.0.1`.
 - **Protocolo:** Comunicação assíncrona bidirecional via JSON-RPC sobre WebSocket (`/api/ws`).
 - **Autenticação:** Chave de sessão efêmera gerada aleatoriamente por processo (`randomBytes(32)`).
 - **Recursos:** Acompanhamento de raciocínio profundo (*chain-of-thought*), parâmetros de pensamento (*budget*), ferramentas nativas e compactação de histórico com preservação da raiz da sessão.
@@ -145,7 +145,7 @@ Um **Harness** é o aplicativo oficial do agente instalado pelo usuário:
 
 ## 6. Modo Arena: Comparativo Lado a Lado
 
-O Modo Arena transforma o NexoBench em uma plataforma de testes comparativos para IA:
+O Modo Arena transforma o Worket em uma plataforma de testes comparativos para IA:
 
 1. **Dois Chats Ativos Simultaneamente:** Painel da esquerda com o agente A (ex: OpenCode) e painel da direita com o agente B (ex: Hermes).
 2. **Troca Rápida de Sessões:** Seletores individuais por coluna para inspecionar e parear qualquer sessão do histórico.
@@ -159,23 +159,23 @@ O Modo Arena transforma o NexoBench em uma plataforma de testes comparativos par
 
 ## 7. Motor de Handoff GLM de Contexto
 
-Quando uma conversa com um agente atinge seu limite de contexto ou quando se deseja transferir o trabalho para um agente especializado em outra tarefa, o NexoBench oferece o **Handoff GLM**:
+Quando uma conversa com um agente atinge seu limite de contexto ou quando se deseja transferir o trabalho para um agente especializado em outra tarefa, o Worket oferece o **Handoff GLM**:
 
 ```mermaid
 sequenceDiagram
     participant Dev as Desenvolvedor
-    participant NB as NexoBench Backend
+    participant W as Worket Backend
     participant GLM as Compilador GLM (OpenRouter)
     participant Disk as Disco do Workspace
     participant Target as Agente de Destino (Harness Nativo)
 
-    Dev->>NB: Inicia Handoff com histórico e orientações
-    NB->>NB: Valida tamanho (orçamento <= 12MB, chunks de 180KB)
-    NB->>GLM: Envia histórico + arquivos Git modificados
-    GLM-->>NB: Retorna Dossiê JSON Estruturado
-    NB->>NB: Valida schema do Dossiê e limites de caminho
-    NB->>Disk: Lê arquivos essenciais diretamente do disco (<= 400 linhas)
-    NB->>Target: Spawna nova sessão nativa com Dossiê + Arquivos
+    Dev->>W: Inicia Handoff com histórico e orientações
+    W->>W: Valida tamanho (orçamento <= 12MB, chunks de 180KB)
+    W->>GLM: Envia histórico + arquivos Git modificados
+    GLM-->>W: Retorna Dossiê JSON Estruturado
+    W->>W: Valida schema do Dossiê e limites de caminho
+    W->>Disk: Lê arquivos essenciais diretamente do disco (<= 400 linhas)
+    W->>Target: Spawna nova sessão nativa com Dossiê + Arquivos
     Target-->>Dev: Inicia execução nativa com contexto completo
 ```
 
@@ -183,7 +183,7 @@ sequenceDiagram
 O GLM compila o histórico e retorna um JSON rigorosamente validado contendo:
 - `objetivo_atual` (string): Meta técnica principal em andamento.
 - `decisoes_tecnicas` (string[]): Lista de decisões de arquitetura e tecnologia adotadas.
-- `arquivos_essenciais` (string[]): Arquivos-chave lidos integralmente do disco pelo NexoBench.
+- `arquivos_essenciais` (string[]): Arquivos-chave lidos integralmente do disco pelo Worket.
 - `arquivos_referencia` ({path, descricao}[]): Arquivos longos ou secundários para leitura sob demanda.
 - `proxima_tarefa` (string): O primeiro passo imediato a ser executado pelo novo agente.
 
@@ -196,7 +196,7 @@ O GLM compila o histórico e retorna um JSON rigorosamente validado contendo:
 
 ## 8. Painel Git Visual e Geração de Commits por IA
 
-O NexoBench possui uma suíte Git visual completa acoplada à barra de ferramentas:
+O Worket possui uma suíte Git visual completa acoplada à barra de ferramentas:
 
 ### 8.1. Operações Visuais
 - **Stage e Unstage:** Adição e remoção de arquivos no índice com 1 clique.
@@ -213,9 +213,9 @@ O NexoBench possui uma suíte Git visual completa acoplada à barra de ferrament
 
 ## 9. Sistema de Checkpoints e Rollback de Segurança
 
-Antes que qualquer agente execute comandos que possam alterar arquivos no repositório, o NexoBench ativa sua camada de segurança:
+Antes que qualquer agente execute comandos que possam alterar arquivos no repositório, o Worket ativa sua camada de segurança:
 
-1. **Snapshot Pré-Execução:** A classe `Checkpoints` captura uma árvore Git temporária sem modificar a branch atual (`refs/nexobench/checkpoints/<id>/before`).
+1. **Snapshot Pré-Execução:** A classe `Checkpoints` captura uma árvore Git temporária sem modificar a branch atual (`refs/worket/checkpoints/<id>/before`).
 2. **Snapshot Pós-Execução:** Ao término do turno do agente, um snapshot `after` é gravado.
 3. **Rollback de 1 Clique:** Caso o agente tenha gerado código incorreto, quebrado testes ou apagado dados, o desenvolvedor clica em desfazer para restaurar o estado exato de antes daquele turno com confirmação.
 4. **Isolamento de Conflitos:** Se o repositório já contiver conflitos de merge não resolvidos, a execução do agente é bloqueada até que o desenvolvedor resolva a situação.
@@ -263,24 +263,32 @@ Substituição completa das caixas de diálogo síncronas do navegador (`window.
 
 ## 14. Sistema de Temas e Personalização Visual
 
-O NexoBench inclui 5 paletas escuras premium ajustáveis nas Configurações do aplicativo, salvas localmente no `localStorage`:
+O Worket oferece duas gerações visuais completas, selecionáveis em **Configurações → Aparência**:
 
-1. **Carbono (Padrão):** Fundo grafite profundo com alto contraste para longas sessões de código.
+### 14.1. V2 · Explorer (Padrão)
+- **Design Moderno:** Fundo preto profundo, caixas com cantos arredondados, divisórias discretas e ícones de pastas em tom amarelo característico.
+- **Cápsula de Projeto:** Barra superior com identificação visual elegante do projeto ativo.
+- **Alto Foco:** Redução de poluição visual na alternância de modos e terminais.
+
+### 14.2. V1 · Original (Paletas Escuras Clássicas)
+Conserva a estrutura visual clássica e permite alternar entre 5 paletas customizadas:
+1. **Carbono (Padrão V1):** Fundo grafite profundo com alto contraste para longas sessões de código.
 2. **Grafite Azulado:** Tonalidade fria inspirada em ambientes de engenharia de dados.
 3. **Carvão:** Preto fosco minimalista para redução de emissão de luz.
 4. **Fusco:** Tonalidade terrosa suave com baixo cansaço visual.
 5. **Ametista:** Acentos roxos elegantes que harmonizam com o tema oficial do agente Hermes.
 
-*Todas as opções mantêm a identidade visual dos harnesses: roxo violeta para Hermes e azul oceano para OpenCode.*
+*Ambos os modos preservam as cores de assinatura dos harnesses: roxo violeta para Hermes e azul oceano para OpenCode.*
 
 ---
 
 ## 15. Arquitetura de Isolamento Desktop e Armazenamento Local
 
 - **Segurança Electron:** Janela operando com `contextIsolation: true`, `nodeIntegration: false` e sandbox nativo ativado.
-- **Protocolo nexobench://app:** Garante uma origem HTTP/HTTPS estável para o renderizador sem expor o sistema de arquivos local a links de terceiros.
-- **Armazenamento de Dados:** Configurações e metadados locais ficam armazenados em SQLite consistente em `~/.config/NexoBench/data/workbench.db`.
-- **Migração Confiável:** Suporte a importação via snapshot consistente (`nexobench --import-data <arquivo.db>`) com validação de integridade `PRAGMA integrity_check`.
+- **Protocolo worket://app:** Garante uma origem HTTP/HTTPS estável para o renderizador sem expor o sistema de arquivos local a links de terceiros.
+- **Armazenamento de Dados:** Configurações e metadados locais ficam armazenados em SQLite consistente em `~/.config/Worket/data/workbench.db`.
+- **Compatibilidade e Migração Suave:** Reutiliza automaticamente bancos e preferências de versões anteriores no local sem risco de perda de dados.
+- **Migração Confiável:** Suporte a importação via snapshot consistente (`worket --import-data <arquivo.db>`) com validação de integridade `PRAGMA integrity_check`.
 
 ---
 
@@ -306,6 +314,6 @@ O NexoBench inclui 5 paletas escuras premium ajustáveis nas Configurações do 
 
 <div align="center">
 
-*NexoBench — Engenharia de software unificada, ágil e focada em inteligência artificial.*
+*Worket — Engenharia de software unificada, ágil e focada em inteligência artificial.*
 
 </div>

@@ -1,6 +1,6 @@
-# NexoBench — Roteiro de Expansão de Harnesses (Roadmap)
+# Worket — Roteiro de Expansão de Harnesses (Roadmap)
 
-A arquitetura do NexoBench foi construída especificamente para expandir o ecossistema de agentes autônomos sem criar caminhos duplicados na interface do usuário. Todos os novos motores aderem à abstração central `HarnessAdapter`.
+A arquitetura do Worket foi construída especificamente para expandir o ecossistema de agentes autônomos sem criar caminhos duplicados na interface do usuário. Todos os novos motores aderem à abstração central `HarnessAdapter`.
 
 ---
 
@@ -22,7 +22,7 @@ A arquitetura do NexoBench foi construída especificamente para expandir o ecoss
 
 ```mermaid
 flowchart LR
-    Current["✅ Atuais (v0.2.x)<br>Hermes & OpenCode"]
+    Current["✅ Atuais (v0.3.0)<br>Hermes & OpenCode"]
     Phase1["📍 Fase 1<br>Claude Code (Anthropic)"]
     Phase2["📍 Fase 2<br>Antigravity (Google)"]
     Phase3["📍 Fase 3<br>Codex (OpenAI)"]
@@ -58,6 +58,6 @@ flowchart LR
 
 <div align="center">
 
-*O futuro do desenvolvimento unificado de software assistido por agentes de inteligência artificial.*
+*Worket — O futuro do desenvolvimento unificado de software assistido por agentes de inteligência artificial.*
 
 </div>

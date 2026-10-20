@@ -1,17 +1,17 @@
-# NexoBench — Arquitetura de Software e Engenharia de Sistemas
+# Worket — Arquitetura de Software e Engenharia de Sistemas
 
-Este documento detalha o design de software, os padrões de arquitetura, o modelo de segurança e os protocolos de comunicação implementados no **NexoBench**.
+Este documento detalha o design de software, os padrões de arquitetura, o modelo de segurança e os protocolos de comunicação implementados no **Worket**.
 
 ---
 
 ## 1. Visão Geral da Arquitetura em Camadas
 
-O NexoBench adota uma arquitetura em camadas desacopladas que garante isolamento de processos, proteção de dados locais e estabilidade de execução:
+O Worket adota uma arquitetura em camadas desacopladas que garante isolamento de processos, proteção de dados locais e estabilidade de execução:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │             Processo de Interface (Electron Renderer)        │
-│  - Protocolo Estável: nexobench://app                        │
+│  - Protocolo Estável: worket://app                          │
 │  - Monaco Editor 0.52 (Monaco Models & Web Workers)         │
 │  - Xterm.js 6.0 (Terminal Virtual com Addon Fit)            │
 │  - Motor SPA Responsivo (Work / Chat / Arena)               │
@@ -26,7 +26,7 @@ O NexoBench adota uma arquitetura em camadas desacopladas que garante isolamento
 └──────────────┬──────────────────────────────▲───────────────┘
                │ Spawn de Serviço Local       │
 ┌──────────────▼──────────────────────────────┴───────────────┐
-│           Serviço de Engenharia (Node.js Engine)             │
+│           Serviço de Engenharia (Worket Node.js Engine)      │
 │  - Daemon HTTP + WebSocket em 127.0.0.1:<dynamic_port>      │
 │  - Abstração de Adaptadores: HarnessAdapter                 │
 │  - Gestor de Arquivos & Proteção Concorrente (files.mjs)    │
@@ -47,7 +47,7 @@ O NexoBench adota uma arquitetura em camadas desacopladas que garante isolamento
 
 ## 2. Princípio Central: Abstração de Harnesses Nativos
 
-A inovação central do NexoBench é o **`HarnessAdapter`**. A interface não possui acoplamento direto com a sintaxe de agentes específicos; ela consome uma interface abstrata que padroniza o ciclo de vida:
+A inovação central do Worket é o **`HarnessAdapter`**. A interface não possui acoplamento direto com a sintaxe de agentes específicos; ela consome uma interface abstrata que padroniza o ciclo de vida:
 
 ```typescript
 interface HarnessAdapter {
@@ -75,7 +75,7 @@ interface HarnessAdapter {
 
 ## 3. Motor de Handoff de Contexto (GLM Engine)
 
-O NexoBench resolve o problema clássico de esgotamento de contexto de agentes ou necessidade de transferir tarefas entre modelos especializados:
+O Worket resolve o problema clássico de esgotamento de contexto de agentes ou necessidade de transferir tarefas entre modelos especializados:
 
 ### Fluxo de Trabalho do Handoff:
 1. **Compilação de Histórico:** O backend consolida mensagens anteriores, arquivos alterados no Git e anotações do usuário. Históricos grandes (>180 KB) são divididos em chunks processados sequencialmente.
@@ -100,20 +100,20 @@ Turno do Agente Iniciado
 Captura git write-tree da área de trabalho
         │
         ▼
-Cria ref isolada: refs/nexobench/checkpoints/<id>/before
+Cria ref isolada: refs/worket/checkpoints/<id>/before
         │
         ▼
 Agente executa alterações nos arquivos
         │
         ▼
-Turno Finalizado ──► Grava refs/nexobench/checkpoints/<id>/after
+Turno Finalizado ──► Grava refs/worket/checkpoints/<id>/after
         │
         ├─► [Sucesso] Usuário continua codificando
         │
         └─► [Falha] Usuário clica em Desfazer ──► git read-tree restaura o estado exato
 ```
 
-- **Zero Poluição:** Não cria commits ruidosos na branch do usuário; os checkpoints são armazenados em `refs/nexobench/checkpoints/`.
+- **Zero Poluição:** Não cria commits ruidosos na branch do usuário; os checkpoints são armazenados em `refs/worket/checkpoints/`.
 - **Autolimpeza:** Mantém apenas os últimos 40 checkpoints ativos, eliminando refs antigas automaticamente.
 
 ---
@@ -122,7 +122,7 @@ Turno Finalizado ──► Grava refs/nexobench/checkpoints/<id>/after
 
 A camada `lib/files.mjs` e `public/editor-access.js` implementa proteção ativa contra condições de corrida:
 
-1. **Assinatura de Arquivo:** Ao abrir qualquer arquivo, o NexoBench guarda seu `mtimeMs` e hash SHA-256.
+1. **Assinatura de Arquivo:** Ao abrir qualquer arquivo, o Worket guarda seu `mtimeMs` e hash SHA-256.
 2. **Proteção de Visualizadores (HTTP 415):** Ao receber qualquer requisição de salvamento textual em imagem, SQLite ou binário, a rota rejeita com HTTP 415, abortando a escrita.
 3. **Detecção de Conflito de Disco (HTTP 409):** Caso o arquivo tenha sido alterado em disco entre a leitura e a tentativa de gravação, o servidor rejeita com status 409, disparando no cliente a barra de resolução em 3 vias (*Comparar*, *Usar disco*, *Manter rascunho*).
 
@@ -149,13 +149,13 @@ O empacotamento desktop (`desktop/main.cjs` e `desktop/security.cjs`) implementa
 | `nodeIntegration` | `false` | Remove completamente os símbolos `require`, `process` e `Buffer` do contexto web. |
 | `sandbox` | `true` | Ativa a sandbox de sistema operacional do Chromium para isolar o processo renderizador. |
 | `webSecurity` | `true` | Bloqueia requisições cross-origin não autorizadas. |
-| Protocolo Personalizado | `nexobench://app` | Fornece uma origem estável e segura para carregamento de assets locais sem expor o esquema `file://`. |
+| Protocolo Personalizado | `worket://app` | Fornece uma origem estável e segura para carregamento de assets locais sem expor o esquema `file://`. |
 | Loopback Efêmero | `127.0.0.1:<port>` | O daemon Node só escuta na interface de loopback, rejeitando conexões externas da rede local. |
 
 ---
 
 <div align="center">
 
-*Arquitetura robusta para uma experiência de engenharia de software sem atritos.*
+*Worket — Arquitetura robusta para uma experiência de engenharia de software sem atritos.*
 
 </div>
