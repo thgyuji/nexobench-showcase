@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="assets/branding/worket-icon.png" alt="Worket Logo" width="120" height="120" style="border-radius: 24px; margin-bottom: 16px;" />
+<img src="assets/branding/worket-icon.png" alt="Worket Logo" width="120" height="120" style="margin-bottom: 16px;" />
 
 ### *All-in-one desktop workbench: editor, chats, terminal, Git visual e preview com harnesses nativos separados.*
 
@@ -200,6 +200,6 @@ Desenvolvido com foco em robustez, respeito aos dados locais e produtividade rea
 
 ## Identidade visual e publicação
 
-O ícone oficial é a caixa de ferramentas 3D com a marca `/WKT_`, sobre o quadrado azul escuro. O mestre e as versões para desktop, navegador e compartilhamento ficam em [assets/branding](assets/branding).
+O ícone oficial é a caixa de ferramentas 3D com a marca `/WKT_`, com fundo transparente e a caixa inteira em destaque. O mestre e as versões para desktop, navegador e compartilhamento ficam em [assets/branding](assets/branding).
 
 A publicação do showcase usa GitHub Actions. `node scripts/build.mjs` prepara `_site/` com o HTML, as imagens e os documentos e verifica as referências locais antes do deploy no GitHub Pages. O diretório compilado não precisa ser commitado. Para visualizar localmente: `python3 -m http.server 4188 --directory _site`.
