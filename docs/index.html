@@ -546,6 +546,23 @@
       color: #6b7280;
       font-size: 0.85rem;
     }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    section[id] { scroll-margin-top: 100px; }
+    .hero-glow { max-width:100%; }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+    .tour-features-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+    .intro-section { padding-top: 32px; }
+    .intro-note { color: var(--text-muted); max-width: 960px; margin: 28px auto 0; }
+    .theme-picker { display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap; margin:0 0 28px; }
+    .theme-picker > span { color:var(--text-muted); margin-right:8px; }
+    .theme-btn { border:1px solid var(--border); color:var(--text-main); background:var(--bg-card); padding:12px 20px; border-radius:999px; cursor:pointer; font:inherit; }
+    .theme-btn.active { background:var(--primary); border-color:var(--primary); color:white; }
+    button:focus-visible, a:focus-visible { outline:3px solid #b5a2ff; outline-offset:4px; }
+    .capture-note { color:var(--text-muted); font-size:.85rem; padding:8px 24px; }
+    .tour-image-container img { width:100%; height:auto; display:block; }
+    @media (max-width:700px) { .nav-links {display:none;} .hero h1 {font-size:2.35rem;} .theme-picker > span {width:100%;text-align:center;} .tour-header {flex-direction:column;align-items:flex-start;} .metric-value {font-size:1.25rem;} }
+    @media (prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} *, *::before, *::after {animation:none !important;transition:none !important;} }
   </style>
 </head>
 <body>
@@ -560,12 +577,12 @@
       <ul class="nav-links">
         <li><a href="#tour">Tour Visual</a></li>
         <li><a href="#funcionalidades">Funcionalidades</a></li>
-        <li><a href="#arquitetura">Arquitetura</a></li>
+        <li><a href="#harnesses">Harnesses & GLM</a></li>
         <li><a href="#sobre">Sobre</a></li>
       </ul>
-      <a href="#arquitetura" class="btn-github">
+      <a href="https://github.com/thgyuji/worket-showcase" class="btn-github">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        Showcase Técnico
+        GitHub
       </a>
     </div>
   </header>
@@ -574,13 +591,13 @@
   <section class="hero">
     <div class="hero-glow"></div>
     <div class="badge-pill">
-      <span>⚡ Worket v0.3.0</span>
+      <span>⚡ Worket v0.3.1</span>
       <span>•</span>
       <span>Harnesses Nativos Reais</span>
     </div>
     <h1>O Workbench Desktop para a Era do <span class="gradient">Desenvolvimento por IA</span></h1>
     <p>
-      Editor Monaco, múltiplos agentes, terminal PTY, Git visual com checkpoints e transplante inteligente de contexto num único espaço de trabalho de alta performance. Sem simulações ou prompts vazios.
+      Editor Monaco, múltiplos agentes, terminal PTY, Git visual com checkpoints e transplante inteligente de contexto num único espaço de trabalho de alta performance. Hermes e OpenCode em harnesses nativos separados, cada um com suas sessões, ferramentas, permissões e memória.
     </p>
     <div class="hero-actions">
       <a href="#tour" class="btn-primary">Explorar Demonstração Visual</a>
@@ -590,15 +607,15 @@
     <!-- Quick Metrics -->
     <div class="metrics-bar">
       <div class="metric-item">
-        <span class="metric-value">0%</span>
-        <span class="metric-label">Simulação por Prompt</span>
+        <span class="metric-value">2</span>
+        <span class="metric-label">Harnesses independentes</span>
       </div>
       <div class="metric-item">
         <span class="metric-value">8</span>
         <span class="metric-label">Terminais PTY Simultâneos</span>
       </div>
       <div class="metric-item">
-        <span class="metric-value">V2 + V1</span>
+        <span class="metric-value">Original + Solid</span>
         <span class="metric-label">Temas & Aparência</span>
       </div>
       <div class="metric-item">
@@ -608,24 +625,36 @@
     </div>
   </section>
 
+  <section id="harnesses" class="pillars-section intro-section">
+    <div class="section-title"><h2>Um workspace. Dois harnesses separados.</h2>
+      <p>O Worket reúne a interface de trabalho. Hermes e OpenCode continuam sendo ambientes de execução independentes.</p></div>
+    <div class="grid-3">
+      <article class="pillar-card"><div class="pillar-icon">🟣</div><h3>Hermes</h3><p>Seu próprio processo, sessões, ferramentas, credenciais, permissões, memória e compactação. A conversa acontece no harness nativo do Hermes.</p></article>
+      <article class="pillar-card"><div class="pillar-icon">🔵</div><h3>OpenCode</h3><p>Outro harness, com seu próprio processo e histórico. Na Arena, cada painel conversa com o agente correspondente; os contextos não são fundidos automaticamente.</p></article>
+      <article class="pillar-card"><div class="pillar-icon">↔</div><h3>GLM faz a ponte de contexto</h3><p>Quando você decide transferir uma tarefa, o GLM compila o objetivo, as decisões técnicas, os arquivos relevantes e o próximo passo em um dossiê estruturado. O Worket valida esse dossiê, lê os arquivos essenciais atuais do disco e abre um novo chat nativo no destino.</p></article>
+    </div>
+    <p class="intro-note">O handoff é uma transferência explícita de contexto entre sessões independentes. O GLM atua como compilador dessa passagem; a execução da tarefa continua no harness escolhido. O uso direto do OpenRouter também atende à geração de mensagens de commit.</p>
+  </section>
+
   <!-- Interactive Tour Section -->
   <section id="tour" class="showcase-tour">
     <div class="section-title">
       <h2>Tour Visual Interativo</h2>
-      <p>Navegue pelas telas reais do produto e veja cada recurso em funcionamento.</p>
+      <p>Escolha um tema e explore a interface atual do Worket 0.3.1.</p>
     </div>
 
-    <!-- Tabs Navigation -->
-    <div class="tabs-wrapper" id="tour-tabs">
-      <button class="tab-btn active" data-tab="work">1. Modo Work (Editor + Chat)</button>
-      <button class="tab-btn" data-tab="chat">2. Modo Chat Amplo</button>
-      <button class="tab-btn" data-tab="arena">3. Modo Arena (Agente vs Agente)</button>
-      <button class="tab-btn" data-tab="terminal">4. Terminal PTY Integrado</button>
-      <button class="tab-btn" data-tab="activity">5. Inspetor de Ferramentas & Raciocínio</button>
-      <button class="tab-btn" data-tab="permissions">6. Portão de Permissões</button>
-      <button class="tab-btn" data-tab="concurrency">7. Concorrência & Conflitos</button>
-      <button class="tab-btn" data-tab="protected">8. Visualizadores Protegidos</button>
-      <button class="tab-btn" data-tab="search">9. Busca Profunda Universal</button>
+    <div class="theme-picker" role="group" aria-label="Tema das screenshots">
+      <span>Qual tema você quer ver?</span>
+      <button type="button" class="theme-btn" data-theme="v1" aria-pressed="false">Tema 1 · Original</button>
+      <button type="button" class="theme-btn active" data-theme="v2" aria-pressed="true">Tema 2 · Solid</button>
+    </div>
+    <div class="tabs-wrapper" id="tour-tabs" role="group" aria-label="Telas do produto">
+      <button type="button" class="tab-btn active" data-tab="work" aria-pressed="true">Work</button>
+      <button type="button" class="tab-btn" data-tab="chat" aria-pressed="false">Chat</button>
+      <button type="button" class="tab-btn" data-tab="arena" aria-pressed="false">Arena</button>
+      <button type="button" class="tab-btn" data-tab="terminal" aria-pressed="false">Terminal</button>
+      <button type="button" class="tab-btn" data-tab="git" aria-pressed="false">Git</button>
+      <button type="button" class="tab-btn" data-tab="search" aria-pressed="false">Busca</button>
     </div>
 
     <!-- Tour Card -->
@@ -643,9 +672,11 @@
       </div>
 
       <div class="tour-image-container">
-        <img id="tour-img" src="../assets/screenshots/01-work-mode.jpg" alt="Demonstração do Worket">
+        <img id="tour-img" src="../assets/screenshots/v2/work.jpg" alt="Modo Work no tema Solid do Worket 0.3.1" width="1600" height="1000">
       </div>
 
+      <p class="capture-note" id="capture-note" aria-live="polite">Tema 2 · Solid — Worket 0.3.1</p>
+      <p class="capture-note">Capturas da interface atual em um projeto de demonstração, sem histórico pessoal. As mensagens no compositor são rascunhos; nenhuma inferência foi executada para estas imagens.</p>
       <div class="tour-features-list" id="tour-features">
         <div class="feature-point">
           <div class="feature-point-icon">✓</div>
@@ -672,89 +703,12 @@
     </div>
   </section>
 
-  <!-- Core Pillars -->
   <section id="funcionalidades" class="pillars-section">
-    <div class="section-title">
-      <h2>Pilares da Experiência Worket</h2>
-      <p>Desenvolvido por YuLiNi Labs, com foco em produtividade, segurança de dados e fidelidade aos agentes.</p>
-    </div>
-
+    <div class="section-title"><h2>Do código à próxima decisão.</h2><p>As ferramentas do projeto ficam no mesmo espaço em que você conversa com os agentes.</p></div>
     <div class="grid-3">
-      <div class="pillar-card">
-        <div class="pillar-icon">🤖</div>
-        <h3>Harnesses Nativos Oficiais</h3>
-        <p>
-          Nada de simulações com prompts superficiais. Hermes roda via <code>hermes serve</code> (JSON-RPC/WebSocket) e OpenCode via REST/SSE oficial. Suas credenciais, ferramentas e memória permanecem sob seu controle.
-        </p>
-      </div>
-
-      <div class="pillar-card">
-        <div class="pillar-icon">⚔️</div>
-        <h3>Modo Arena Comparativo</h3>
-        <p>
-          Avalie respostas de dois agentes em tempo real frente a frente no mesmo projeto. Compare estratégias de raciocínio, saídas de ferramentas, consumo de tokens e decisões de arquitetura.
-        </p>
-      </div>
-
-      <div class="pillar-card">
-        <div class="pillar-icon">🔄</div>
-        <h3>Motor de Handoff GLM</h3>
-        <p>
-          Transfira o trabalho de um agente para outro sem perda de contexto. O compilador gera um dossiê JSON estruturado e lê os arquivos essenciais atuais diretamente do disco para uma sessão nativa limpa.
-        </p>
-      </div>
-
-      <div class="pillar-card">
-        <div class="pillar-icon">🛡️</div>
-        <h3>Checkpoints de Segurança Git</h3>
-        <p>
-          Antes de qualquer turno de agente, um snapshot Git transacional é criado automaticamente. Se o agente cometer erros, desfaça tudo com confirmação e rollback de 1 clique.
-        </p>
-      </div>
-
-      <div class="pillar-card">
-        <div class="pillar-icon">🔒</div>
-        <h3>Proteção contra Corrupção</h3>
-        <p>
-          Visualizadores de imagem, bancos SQLite e binários bloqueiam salvamentos textuais involuntários com HTTP 415. Watcher de disco previne perda de rascunhos com resolução de conflitos em 3 vias.
-        </p>
-      </div>
-
-      <div class="pillar-card">
-        <div class="pillar-icon">💻</div>
-        <h3>Terminal PTY & Git Visual</h3>
-        <p>
-          Até 8 terminais simultâneos com detecção automática de scripts do package.json e alvos do Makefile, acompanhados de painel Git visual completo com commits gerados por IA.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Architecture Overview -->
-  <section id="arquitetura" class="arch-section">
-    <div class="section-title" style="text-align: left; margin-bottom: 20px;">
-      <h2>Arquitetura e Isolamento Desktop</h2>
-      <p>Design de software seguro, offline-first e com limites estritos de privilégio.</p>
-    </div>
-    <p style="color: var(--text-muted); font-size: 1rem;">
-      O Worket desacopla totalmente a camada de interface (renderizada em sandbox Electron sob a origem estável <code>worket://app</code>) do serviço local de execução. O serviço roda em porta dinâmica no loopback (<code>127.0.0.1</code>) e autentica requisições com chave de sessão efêmera gerada por processo.
-    </p>
-
-    <div class="arch-code-box">
-┌─────────────────────────────────────────────────────────────┐
-│                 Worket Desktop Architecture                  │
-│                                                             │
-│  [ Electron Renderer ] ──(IPC Bridge)──► [ Electron Main ]   │
-│           │                                     │           │
-│           │ (worket://app)                      │ (Spawn)   │
-│           ▼                                     ▼           │
-│  [ Protected Viewers / Monaco ]         [ Local Node Daemon]│
-│                                                 │           │
-│                                                 ▼           │
-│                                       [ HarnessAdapter ]    │
-│                                        ├── Hermes (WS/RPC)  │
-│                                        └── OpenCode (REST)  │
-└─────────────────────────────────────────────────────────────┘
+      <article class="pillar-card"><div class="pillar-icon">⌘</div><h3>Editor, arquivos e preview</h3><p>Monaco com abas, diff e seleção de código para o chat. O Explorer mostra os arquivos e as sessões; o preview mantém a interface que você está construindo por perto.</p></article>
+      <article class="pillar-card"><div class="pillar-icon">⑂</div><h3>Git e terminal integrados</h3><p>Revise alterações, prepare commits e acompanhe checkpoints. Execute os comandos do projeto em terminais PTY sem sair do workspace.</p></article>
+      <article class="pillar-card"><div class="pillar-icon">◐</div><h3>Original ou Solid</h3><p>Dois temas para o mesmo fluxo de trabalho. Original oferece variações de cor; Solid traz superfícies escuras e painéis arredondados. A escolha fica salva no aplicativo.</p></article>
     </div>
   </section>
 
@@ -766,10 +720,9 @@
         <span>Worket Showcase</span>
       </div>
       <div class="footer-links">
-        <a href="../README.md">README</a>
-        <a href="../FEATURES.md">Catálogo de Funcionalidades</a>
-        <a href="../ARCHITECTURE.md">Arquitetura de Software</a>
-        <a href="../ROADMAP.md">Roadmap de Expansão</a>
+        <a href="https://github.com/thgyuji/worket-showcase">Repositório do showcase</a>
+        <a href="#harnesses">Harnesses e handoff GLM</a>
+        <a href="#tour">Ver os dois temas</a>
       </div>
       <p class="footer-copy">
         Worket — Desenvolvido por YuLiNi Labs.
@@ -777,185 +730,49 @@
     </div>
   </footer>
 
-  <!-- Interactive Tour Script -->
   <script>
-    const tourData = {
-      work: {
-        title: "Modo Work: O Workspace de Engenharia",
-        desc: "Árvore de arquivos com badges Git, Monaco Editor com abas dedicadas e conversa do agente lado a lado.",
-        img: "../assets/screenshots/01-work-mode.jpg",
-        tags: [
-          { text: "Hermes", class: "hermes" },
-          { text: "OpenCode", class: "opencode" },
-          { text: "Monaco 0.52", class: "" }
-        ],
-        features: [
-          { title: "Monaco Editor Profissional", desc: "Fontes JetBrains Mono, Monaco Diff em tempo real contra Git HEAD e atalhos customizados." },
-          { title: "Seleção Cirúrgica → Chat", desc: "Atalho Ctrl+Shift+L anexa linhas selecionadas ao chat com notação @arquivo:L1-L20." },
-          { title: "Divisórias com Memória", desc: "Painéis ajustáveis por arraste ou teclado com persistência da geometria salva no host." }
-        ]
-      },
-      chat: {
-        title: "Modo Chat Amplo & Multi-Projetos",
-        desc: "Visão ampla de conversação, histórico agrupado por projeto e telemetria de tokens e custos em USD.",
-        img: "../assets/screenshots/02-chat-mode.jpg",
-        tags: [
-          { text: "Projetos Isolados", class: "opencode" },
-          { text: "Telemetria USD", class: "hermes" },
-          { text: "Histórico Seguro", class: "" }
-        ],
-        features: [
-          { title: "Projetos sem Trocar Workspace", desc: "Fixe pastas adicionais na barra lateral e inicie sessões nativas apontando diretamente para elas." },
-          { title: "Auditoria Financeira Transparente", desc: "Controle em tempo real de tokens consumidos e custo exato em dólares da sessão." },
-          { title: "Inserir no Editor com 1 Clique", desc: "Blocos de código gerados pelo agente podem ser copiados ou injetados cirurgicamente no arquivo." }
-        ]
-      },
-      arena: {
-        title: "Modo Arena: Comparação Agente vs Agente",
-        desc: "Compare simultaneamente dois modelos e harnesses em execução paralela na mesma tarefa de programação.",
-        img: "../assets/screenshots/03-arena-mode.jpg",
-        tags: [
-          { text: "Head-to-Head", class: "hermes" },
-          { text: "Benchmarking", class: "opencode" },
-          { text: "Zero Simulação", class: "" }
-        ],
-        features: [
-          { title: "Execução Paralela Real", desc: "Painel primário e secundário conectados aos respectivos daemons nativos em loopback." },
-          { title: "Avaliação de Raciocínio", desc: "Compare qual agente formulou o melhor plano e chamou as ferramentas adequadas." },
-          { title: "Sincronização de Sessões", desc: "Seletor independente em cada coluna com persistência compartilhada de estado." }
-        ]
-      },
-      terminal: {
-        title: "Terminal PTY Integrado & Comandos Rápidos",
-        desc: "Terminal Linux real com node-pty, xterm.js, até 8 instâncias e detecção automática de scripts.",
-        img: "../assets/screenshots/04-integrated-terminal.jpg",
-        tags: [
-          { text: "node-pty 1.1", class: "" },
-          { text: "xterm.js 6.0", class: "opencode" },
-          { text: "Autodetecção", class: "hermes" }
-        ],
-        features: [
-          { title: "Até 8 Terminais Concorrentes", desc: "Abas de terminal independentes rodando dentro da raiz do projeto." },
-          { title: "Detecção de package.json & Makefile", desc: "Varre scripts npm, yarn, pnpm, bun e alvos de Makefile automaticamente." },
-          { title: "Shell Integration", desc: "Rastreia o comando em execução e código de saída sem interferir na sessão do usuário." }
-        ]
-      },
-      activity: {
-        title: "Inspetor de Atividade, Raciocínio & Ferramentas",
-        desc: "Visibilidade total do raciocínio interno do agente, parâmetros de entrada e saídas de ferramentas.",
-        img: "../assets/screenshots/05-agent-activity-inspector.jpg",
-        tags: [
-          { text: "Chain of Thought", class: "hermes" },
-          { text: "Tool Calling", class: "opencode" },
-          { text: "Auditoria", class: "" }
-        ],
-        features: [
-          { title: "Trabalhou por Xs", desc: "Bloco colapsável exibindo a duração precisa de processamento do agente." },
-          { title: "Inspeção de I/O de Ferramentas", desc: "Visualize entradas JSON e retornos completos de comandos read, write e bash." },
-          { title: "Subagentes Rastreados", desc: "Subagentes spawnados aparecem aninhados à conversa mãe com histórico sob demanda." }
-        ]
-      },
-      permissions: {
-        title: "Portão de Permissões & Segurança em Tempo Real",
-        desc: "Controle estrito de execução onde nenhuma ferramenta sensível é executada sem autorização humana.",
-        img: "../assets/screenshots/06-native-permission-gate.jpg",
-        tags: [
-          { text: "Segurança Ativa", class: "hermes" },
-          { text: "Aprovação Humana", class: "opencode" },
-          { text: "Controle de Acesso", class: "" }
-        ],
-        features: [
-          { title: "Banner Interativo de Autorização", desc: "Permita uma vez ou recuse a execução de comandos ou leitura de arquivos sensíveis." },
-          { title: "Interrupção Imediata", desc: "Botão Parar cancela a execução do harness imediatamente em caso de loop ou erro." },
-          { title: "Políticas Nativas", desc: "Respeita as regras e configurações de permissão oficiais de cada agente." }
-        ]
-      },
-      concurrency: {
-        title: "Proteção contra Conflito de Arquivos em Disco",
-        desc: "Prevenção ativa contra sobrescrita de rascunhos sujos com resolução de conflitos em 3 vias.",
-        img: "../assets/screenshots/07-concurrency-conflict-guard.jpg",
-        tags: [
-          { text: "File Watcher", class: "opencode" },
-          { text: "Resolução em 3 Vias", class: "hermes" },
-          { text: "Zero Perda de Código", class: "" }
-        ],
-        features: [
-          { title: "Detecção de Mudança Externa", desc: "Identifica instantaneamente se um agente ou processo externo alterou o arquivo no disco." },
-          { title: "Comparar, Usar Disco ou Manter", desc: "Interface clara com diff interativo para decidir como mesclar as alterações." },
-          { title: "Bloqueio Backend HTTP 409", desc: "A rota de gravação rejeita alterações concorrentes com conflito explícito." }
-        ]
-      },
-      protected: {
-        title: "Visualizadores Protegidos (SQLite, Binários & Imagens)",
-        desc: "Visualização especializada que desvincula o editor de texto e impede corrupção de arquivos binários.",
-        img: "../assets/screenshots/08-protected-sqlite-viewer.jpg",
-        tags: [
-          { text: "SQLite Seguro", class: "hermes" },
-          { text: "Bloqueio HTTP 415", class: "opencode" },
-          { text: "Imutabilidade", class: "" }
-        ],
-        features: [
-          { title: "Inspeção de SQLite e Binários", desc: "Visualiza tabelas de banco de dados e metadados de arquivos sem tentar tratá-los como texto." },
-          { title: "Bloqueio de Salvamento Textual", desc: "Atalhos de salvamento (Ctrl+S) são desativados e o backend recusa gravações com HTTP 415." },
-          { title: "Arquivos Preservados", desc: "Visualização de conteúdo sem permitir edição textual de arquivos binários." }
-        ]
-      },
-      search: {
-        title: "Busca Profunda Universal (`Ctrl+K`)",
-        desc: "Encontra arquivos profundos no workspace e sessões salvas sem depender da árvore de diretórios.",
-        img: "../assets/screenshots/09-deep-search-palette.jpg",
-        tags: [
-          { text: "Ctrl + K", class: "" },
-          { text: "Ripgrep Híbrido", class: "hermes" },
-          { text: "Catálogo Cacheado", class: "opencode" }
-        ],
-        features: [
-          { title: "Busca Rápida Desacoplada", desc: "Localiza arquivos em subníveis profundos mesmo com todas as pastas recolhidas." },
-          { title: "Motor Híbrido com Fallback", desc: "Usa ripgrep nativo quando instalado ou varredura interna inteligente ignorando node_modules." },
-          { title: "Invalidação por Mutação", desc: "Criação, renomeação ou exclusão de arquivos invalidam o cache instantaneamente." }
-        ]
-      }
-    };
-
-    const tabsContainer = document.getElementById('tour-tabs');
-    const titleEl = document.getElementById('tour-title');
-    const descEl = document.getElementById('tour-desc');
-    const imgEl = document.getElementById('tour-img');
-    const tagsEl = document.getElementById('tour-tags');
-    const featuresEl = document.getElementById('tour-features');
-
-    tabsContainer.addEventListener('click', (e) => {
-      const btn = e.target.closest('.tab-btn');
-      if (!btn) return;
-      
-      const tabKey = btn.dataset.tab;
-      const data = tourData[tabKey];
-      if (!data) return;
-
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      titleEl.textContent = data.title;
-      descEl.textContent = data.desc;
-      imgEl.style.opacity = '0.3';
-      
-      setTimeout(() => {
-        imgEl.src = data.img;
-        imgEl.alt = data.title;
-        imgEl.style.opacity = '1';
-      }, 150);
-
-      tagsEl.innerHTML = data.tags.map(t => `<span class="tag ${t.class}">${t.text}</span>`).join('');
-      featuresEl.innerHTML = data.features.map(f => `
-        <div class="feature-point">
-          <div class="feature-point-icon">✓</div>
-          <div>
-            <h4>${f.title}</h4>
-            <p>${f.desc}</p>
-          </div>
-        </div>
-      `).join('');
+    const tourData = {"work": {"title": "Modo Work: código e agente lado a lado", "desc": "Explorer, editor com abas e conversa no mesmo workspace.", "tags": ["Monaco", "Arquivos & sessões"], "features": [{"title": "Contexto por arquivo", "desc": "Anexe o arquivo aberto ou envie uma seleção para o agente."}, {"title": "Workspace ajustável", "desc": "Redimensione arquivos, editor, conversa e lista de sessões."}]}, "chat": {"title": "Modo Chat: foco na conversa", "desc": "Uma área ampla para conversar, com projetos e recentes na barra lateral.", "tags": ["Projetos", "Histórico por harness"], "features": [{"title": "Agente à sua escolha", "desc": "Alterne entre Hermes e OpenCode mantendo as sessões de cada harness separadas."}, {"title": "Continuidade", "desc": "Retorne ao Work para acompanhar os arquivos do projeto."}]}, "arena": {"title": "Arena: dois harnesses, dois contextos", "desc": "Hermes e OpenCode lado a lado, com conversas independentes no mesmo projeto.", "tags": ["Hermes", "OpenCode"], "features": [{"title": "Execução independente", "desc": "Cada painel usa o próprio harness e suas políticas de permissão."}, {"title": "Compare abordagens", "desc": "Acompanhe as soluções e escolha quando transferir contexto pelo handoff GLM."}]}, "terminal": {"title": "Terminal integrado ao projeto", "desc": "Execute comandos e scripts sem sair do editor.", "tags": ["PTY", "Scripts do projeto"], "features": [{"title": "Até 8 terminais", "desc": "Sessões de shell independentes dentro da pasta do projeto."}, {"title": "Comandos rápidos", "desc": "Selecione scripts do package.json e acompanhe a saída no terminal."}]}, "git": {"title": "Git visual: alterações sob controle", "desc": "Veja os arquivos modificados, prepare o stage e escreva o próximo commit.", "tags": ["Stage", "Branches", "GLM para commits"], "features": [{"title": "Revisão ao lado do código", "desc": "Acompanhe o estado Git do arquivo aberto no Explorer."}, {"title": "Mensagem com apoio do GLM", "desc": "Gere uma sugestão a partir do diff no stage e revise antes de criar o commit."}]}, "search": {"title": "Busca: vá direto ao arquivo", "desc": "Localize arquivos e sessões pela barra de busca, sem abrir cada pasta.", "tags": ["Ctrl + K", "Arquivos & sessões"], "features": [{"title": "Arquivos em subpastas", "desc": "Encontre caminhos dentro do projeto mesmo com a árvore recolhida."}, {"title": "Menos navegação", "desc": "Abra o resultado e continue o trabalho no editor."}]}};
+    let activeTab = 'work';
+    let activeTheme = 'v2';
+    try { if (['v1', 'v2'].includes(localStorage.getItem('worket.showcase.theme'))) activeTheme = localStorage.getItem('worket.showcase.theme'); } catch {}
+    const image = document.getElementById('tour-img');
+    function renderTour() {
+      const data = tourData[activeTab];
+      const themeName = activeTheme === 'v1' ? 'Tema 1 · Original' : 'Tema 2 · Solid';
+      document.getElementById('tour-title').textContent = data.title;
+      document.getElementById('tour-desc').textContent = data.desc;
+      image.src = `../assets/screenshots/${activeTheme}/${activeTab}.jpg`;
+      image.alt = `${data.title} — ${themeName}, Worket 0.3.1`;
+      document.getElementById('capture-note').textContent = `${themeName} — Worket 0.3.1`;
+      document.querySelectorAll('[data-theme]').forEach(button => {
+        const selected = button.dataset.theme === activeTheme;
+        button.classList.toggle('active', selected); button.setAttribute('aria-pressed', selected);
+      });
+      document.querySelectorAll('[data-tab]').forEach(button => {
+        const selected = button.dataset.tab === activeTab;
+        button.classList.toggle('active', selected); button.setAttribute('aria-pressed', selected);
+      });
+      document.getElementById('tour-tags').replaceChildren(...data.tags.map(text => {
+        const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = text; return tag;
+      }));
+      document.getElementById('tour-features').replaceChildren(...data.features.map(feature => {
+        const card = document.createElement('div'); card.className = 'feature-point';
+        const icon = document.createElement('div'); icon.className = 'feature-point-icon'; icon.textContent = '✓';
+        const text = document.createElement('div'); const title = document.createElement('h4'); const description = document.createElement('p');
+        title.textContent = feature.title; description.textContent = feature.desc; text.append(title, description); card.append(icon, text); return card;
+      }));
+    }
+    document.getElementById('tour-tabs').addEventListener('click', event => {
+      const button = event.target.closest('[data-tab]'); if (!button) return;
+      activeTab = button.dataset.tab; renderTour();
     });
+    document.querySelector('.theme-picker').addEventListener('click', event => {
+      const button = event.target.closest('[data-theme]'); if (!button) return;
+      activeTheme = button.dataset.theme;
+      try { localStorage.setItem('worket.showcase.theme', activeTheme); } catch {}
+      renderTour();
+    });
+    renderTour();
   </script>
 </body>
 </html>

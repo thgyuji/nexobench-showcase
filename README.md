@@ -26,44 +26,27 @@ O **Worket** é um ambiente de desenvolvimento integrado (Workbench) para deskto
 3. **Arena de Comparação Lado a Lado** (Permite confrontar dois agentes simultaneamente na mesma tarefa);
 4. **Terminal PTY Integrado** (Até 8 terminais com detecção automática de scripts e shell integration);
 5. **Painel Git Visual com IA e Checkpoints** (Controle de versão completo, checkpoints antes de execuções de agentes e geração semântica de commits);
-6. **Mecanismo de Handoff GLM de Contexto** (Transplante estruturado de contexto e memória entre agentes sem perda de decisões técnicas).
+6. **Mecanismo de Handoff GLM de Contexto** (Compilação estruturada do objetivo, decisões técnicas, arquivos relevantes e próxima tarefa para outro chat nativo).
 
-> 💎 **Princípio Central: Sem Simulação de Agentes.**  
-> O Worket **não finge ser um agente** através de prompts superficiais. Toda conversa, execução de ferramentas (*tool calling*), políticas de permissão, memória e compactação rodam exclusivamente no **harness oficial nativo** (daemons locais via JSON-RPC/WebSocket e APIs HTTP/EventSource oficiais). O OpenRouter direto é estritamente restrito a duas funções declaradas: o compilador de contexto do Handoff GLM e o gerador de mensagens de commit.
+> **Harnesses separados, interface compartilhada.** Hermes e OpenCode executam em processos e sessões independentes, com ferramentas, credenciais, permissões, memória e compactação próprias. Na Arena, os dois painéis mantêm seus contextos separados.
+>
+> **O GLM faz a ponte quando você pede um handoff.** Ele compila o histórico em um dossiê com objetivo, decisões técnicas, arquivos essenciais e próxima tarefa. O Worket valida o dossiê, lê os arquivos atuais do disco e abre um novo chat nativo no harness de destino. Isso transfere contexto explicitamente; não funde as memórias dos agentes. O OpenRouter direto também é usado para sugerir mensagens de commit.
 
 ---
 
 ## 📸 Demonstração Visual
 
-### 1. Modo Work: O Workspace Completo
-O modo principal unifica a árvore de arquivos com status Git em tempo real, abas do Monaco Editor com diff visual contra o Git HEAD, e a conversa ativa com o agente.
+**[Abrir o showcase interativo](https://thgyuji.github.io/worket-showcase/)** — escolha **Tema 1 · Original** ou **Tema 2 · Solid** e navegue por Work, Chat, Arena, Terminal, Git e Busca. A escolha do tema é mantida ao trocar de tela.
 
-![Worket Modo Work](assets/screenshots/01-work-mode.jpg)
+Capturas atualizadas do Worket **0.3.1**, em um projeto de demonstração sem histórico pessoal. Os textos no compositor são rascunhos; não foi executada inferência para produzir as imagens.
 
-### 2. Modo Chat: Foco Amplo e Gestão de Múltiplos Projetos
-Layout de conversa expandida com histórico agrupado por projeto e agente, rastreamento de custos em USD e tokens acumulados por sessão.
+### Tema 1 · Original
 
-![Worket Modo Chat](assets/screenshots/02-chat-mode.jpg)
+![Worket 0.3.1 — Work no tema Original](assets/screenshots/v1/work.jpg)
 
-### 3. Modo Arena: Comparação Direta Agente vs Agente
-Coloca dois agentes frente a frente (por exemplo, Hermes e OpenCode) para comparar respostas, velocidade de raciocínio, consumo de tokens e saídas de ferramentas.
+### Tema 2 · Solid
 
-![Worket Modo Arena](assets/screenshots/03-arena-mode.jpg)
-
-### 4. Terminal PTY Integrado e Comandos Rápidos
-Gaveta retrátil de terminal multiprocesso baseada em `node-pty` e `@xterm/xterm`, com detecção inteligente de scripts do `package.json` e alvos de `Makefile`.
-
-![Worket Terminal Integrado](assets/screenshots/04-integrated-terminal.jpg)
-
-### 5. Atividade e Raciocínio Profundo do Agente
-Inspetor detalhado que exibe o tempo de processamento ("Trabalhou por Xs"), pensamentos internos do agente (*chain of thought*), chamadas de ferramentas e payloads completos de entrada e saída.
-
-![Worket Inspetor de Atividade](assets/screenshots/05-agent-activity-inspector.jpg)
-
-### 6. Barreira de Permissões e Segurança de Execução
-Nenhum agente executa comandos arbitrários ou acessa arquivos sem autorização explícita do desenvolvedor via banner nativo de aprovação.
-
-![Worket Permissões Nativas](assets/screenshots/06-native-permission-gate.jpg)
+![Worket 0.3.1 — Work no tema Solid](assets/screenshots/v2/work.jpg)
 
 ---
 
@@ -88,7 +71,7 @@ Nenhum agente executa comandos arbitrários ou acessa arquivos sem autorização
 | | **Commit Semântico via IA** | Geração automática de commit baseada no diff staged, tratando código estritamente como dados (proteção contra prompt injection). |
 | **Produtividade** | **Busca Profunda (`Ctrl+K`)** | Localizador universal com suporte a ripgrep (`rg`) e fallback resiliente por varredura interna caso `rg` não esteja no PATH. |
 | | **Terminal Multi-Sessão** | Até 8 instâncias PTY simultâneas com integração de shell. |
-| | **Aparência e Temas** | **V2 · Explorer** (padrão com fundo preto, caixas arredondadas e pastas amarelas) e **V1 · Original** (5 paletas: *Carbono*, *Grafite azulado*, *Carvão*, *Fusco* e *Ametista*). |
+| | **Aparência e Temas** | **Tema 2 · Solid** (padrão com fundo preto, painéis arredondados e pastas amarelas) e **Tema 1 · Original** (5 paletas: *Carbono*, *Grafite azulado*, *Carvão*, *Fusco* e *Ametista*). |
 
 ---
 
@@ -166,7 +149,7 @@ Explore os guias detalhados criados para este showcase:
 
 O **Worket** é desenvolvido por **YuLiNi Labs** como workbench desktop de última geração para desenvolvimento assistido por agentes de IA. Seu repositório principal de desenvolvimento é proprietário e mantido sob acesso restrito.
 
-Este repositório de showcase reúne a especificação arquitetural, o catálogo funcional e uma demonstração interativa completa dos conceitos implementados na **versão 0.3.0**.
+Este repositório de showcase reúne a especificação arquitetural, o catálogo funcional e uma demonstração interativa completa dos conceitos implementados na **versão 0.3.1**.
 
 ---
 
