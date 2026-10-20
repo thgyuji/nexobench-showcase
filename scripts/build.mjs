@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const output=path.join(root,'_site');
+fs.rmSync(output,{recursive:true,force:true});
+fs.mkdirSync(output,{recursive:true});
+let html=fs.readFileSync(path.join(root,'docs/index.html'),'utf8');
+html=html.replaceAll('../assets/','./assets/').replace(/(["'])\.\.\/([A-Z][A-Z-]*\.md)\1/g,'$1./$2$1');
+fs.writeFileSync(path.join(output,'index.html'),html);
+fs.writeFileSync(path.join(output,'.nojekyll'),'');
+fs.cpSync(path.join(root,'assets'),path.join(output,'assets'),{recursive:true});
+for(const name of fs.readdirSync(root))if(name.endsWith('.md'))fs.copyFileSync(path.join(root,name),path.join(output,name));
+const refs=[...html.matchAll(/["'](\.\/assets\/[^"']+)["']/g)].map(match=>match[1]);
+for(const ref of new Set(refs))if(!fs.existsSync(path.join(output,ref)))throw new Error('Asset ausente: '+ref);
+console.log(`Worket Showcase: site e ${new Set(refs).size} referências de assets verificados em _site/.`);
