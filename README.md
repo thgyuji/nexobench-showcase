@@ -38,15 +38,15 @@ O **Worket** é um ambiente de desenvolvimento integrado (Workbench) para deskto
 
 **[Abrir o showcase interativo](https://thgyuji.github.io/worket-showcase/)** — escolha **Tema 1 · Original** ou **Tema 2 · Solid** e navegue por Work, Chat, Arena, Terminal, Git e Busca. A escolha do tema é mantida ao trocar de tela.
 
-Capturas atualizadas do Worket **0.3.1**, em um projeto de demonstração sem histórico pessoal. Os textos no compositor são rascunhos; não foi executada inferência para produzir as imagens.
+Capturas atualizadas do Worket **0.3.2**, em um projeto de demonstração sem histórico pessoal. Os textos no compositor são rascunhos; não foi executada inferência para produzir as imagens.
 
 ### Tema 1 · Original
 
-![Worket 0.3.1 — Work no tema Original](assets/screenshots/v1/work.jpg)
+![Worket 0.3.2 — Work no tema Original](assets/screenshots/v1/work.png)
 
 ### Tema 2 · Solid
 
-![Worket 0.3.1 — Work no tema Solid](assets/screenshots/v2/work.jpg)
+![Worket 0.3.2 — Work no tema Solid](assets/screenshots/v2/work.png)
 
 ---
 
@@ -149,7 +149,7 @@ Explore os guias detalhados criados para este showcase:
 
 O **Worket** é desenvolvido por **YuLiNi Labs** como workbench desktop de última geração para desenvolvimento assistido por agentes de IA. Seu repositório principal de desenvolvimento é proprietário e mantido sob acesso restrito.
 
-Este repositório de showcase reúne a especificação arquitetural, o catálogo funcional e uma demonstração interativa completa dos conceitos implementados na **versão 0.3.1**.
+Este repositório de showcase reúne a especificação arquitetural, o catálogo funcional e uma demonstração interativa completa dos conceitos implementados na **versão 0.3.2**.
 
 ---
 
@@ -160,10 +160,3 @@ Desenvolvido por **YuLiNi Labs**.
 **Worket** • *The AI Developer's Workbench*
 
 </div>
-
-
-## Identidade visual e publicação
-
-O ícone oficial é a caixa de ferramentas 3D com a marca `/WKT_`, com fundo transparente e a caixa inteira em destaque. O mestre e as versões para desktop, navegador e compartilhamento ficam em [assets/branding](assets/branding).
-
-A publicação do showcase usa GitHub Actions. `node scripts/build.mjs` prepara `_site/` com o HTML, as imagens e os documentos e verifica as referências locais antes do deploy no GitHub Pages. O diretório compilado não precisa ser commitado. Para visualizar localmente: `python3 -m http.server 4188 --directory _site`.

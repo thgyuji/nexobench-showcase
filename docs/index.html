@@ -561,6 +561,23 @@
     button:focus-visible, a:focus-visible { outline:3px solid #b5a2ff; outline-offset:4px; }
     .capture-note { color:var(--text-muted); font-size:.85rem; padding:8px 24px; }
     .tour-image-container img { width:100%; height:auto; display:block; }
+    .tour-image-actions { display: flex; gap: 12px; align-items: center; justify-content: flex-end; padding: 12px 24px 0; flex-wrap: wrap; }
+    .tour-action-btn, .tour-action-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; font-weight: 500; text-decoration: none;
+      padding: 6px 14px; border-radius: 999px; cursor: pointer;
+      border: 1px solid var(--border); color: var(--text-main); background: var(--bg-card);
+      transition: all 0.2s ease; font-family: inherit;
+    }
+    .tour-action-btn:hover, .tour-action-link:hover {
+      background: var(--bg-surface); border-color: var(--primary); color: #fff;
+    }
+    .tour-image-container:fullscreen {
+      display: flex; align-items: center; justify-content: center; background: #000; padding: 0;
+    }
+    .tour-image-container:fullscreen img {
+      max-width: 100vw; max-height: 100vh; object-fit: contain; width: auto; height: auto;
+    }
     @media (max-width:700px) { .nav-links {display:none;} .hero h1 {font-size:2.35rem;} .theme-picker > span {width:100%;text-align:center;} .tour-header {flex-direction:column;align-items:flex-start;} .metric-value {font-size:1.25rem;} }
     @media (prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} *, *::before, *::after {animation:none !important;transition:none !important;} }
   </style>
@@ -591,7 +608,7 @@
   <section class="hero">
     <div class="hero-glow"></div>
     <div class="badge-pill">
-      <span>⚡ Worket v0.3.1</span>
+      <span>⚡ Worket v0.3.2</span>
       <span>•</span>
       <span>Harnesses Nativos Reais</span>
     </div>
@@ -640,7 +657,7 @@
   <section id="tour" class="showcase-tour">
     <div class="section-title">
       <h2>Tour Visual Interativo</h2>
-      <p>Escolha um tema e explore a interface atual do Worket 0.3.1.</p>
+      <p>Escolha um tema e explore a interface atual do Worket 0.3.2.</p>
     </div>
 
     <div class="theme-picker" role="group" aria-label="Tema das screenshots">
@@ -671,11 +688,16 @@
         </div>
       </div>
 
-      <div class="tour-image-container">
-        <img id="tour-img" src="../assets/screenshots/v2/work.jpg" alt="Modo Work no tema Solid do Worket 0.3.1" width="1600" height="1000">
+      <div class="tour-image-container" id="tour-image-container">
+        <img id="tour-img" src="../assets/screenshots/v2/work.png" alt="Modo Work no tema Solid do Worket 0.3.2" width="1920" height="1080">
       </div>
 
-      <p class="capture-note" id="capture-note" aria-live="polite">Tema 2 · Solid — Worket 0.3.1</p>
+      <div class="tour-image-actions">
+        <button type="button" id="tour-fullscreen" class="tour-action-btn" title="Visualizar captura em tela cheia">⛶ Tela cheia</button>
+        <a id="tour-img-link" class="tour-action-link" href="../assets/screenshots/v2/work.png" target="_blank" rel="noopener noreferrer">↗ Abrir imagem original (1920×1080)</a>
+      </div>
+
+      <p class="capture-note" id="capture-note" aria-live="polite">Tema 2 · Solid — Worket 0.3.2</p>
       <p class="capture-note">Capturas da interface atual em um projeto de demonstração, sem histórico pessoal. As mensagens no compositor são rascunhos; nenhuma inferência foi executada para estas imagens.</p>
       <div class="tour-features-list" id="tour-features">
         <div class="feature-point">
@@ -741,9 +763,14 @@
       const themeName = activeTheme === 'v1' ? 'Tema 1 · Original' : 'Tema 2 · Solid';
       document.getElementById('tour-title').textContent = data.title;
       document.getElementById('tour-desc').textContent = data.desc;
-      image.src = `../assets/screenshots/${activeTheme}/${activeTab}.jpg`;
-      image.alt = `${data.title} — ${themeName}, Worket 0.3.1`;
-      document.getElementById('capture-note').textContent = `${themeName} — Worket 0.3.1`;
+      image.src = `../assets/screenshots/${activeTheme}/${activeTab}.png`;
+      image.alt = `${data.title} — ${themeName}, Worket 0.3.2`;
+      document.getElementById('capture-note').textContent = `${themeName} — Worket 0.3.2`;
+      const imgLink = document.getElementById('tour-img-link');
+      if (imgLink) {
+        imgLink.href = `../assets/screenshots/${activeTheme}/${activeTab}.png`;
+        imgLink.title = `Abrir ${data.title} (${themeName}) em resolução nativa 1920×1080`;
+      }
       document.querySelectorAll('[data-theme]').forEach(button => {
         const selected = button.dataset.theme === activeTheme;
         button.classList.toggle('active', selected); button.setAttribute('aria-pressed', selected);
@@ -771,6 +798,14 @@
       activeTheme = button.dataset.theme;
       try { localStorage.setItem('worket.showcase.theme', activeTheme); } catch {}
       renderTour();
+    });
+    document.getElementById('tour-fullscreen')?.addEventListener('click', () => {
+      const container = document.getElementById('tour-image-container');
+      if (document.fullscreenElement) {
+        document.exitFullscreen?.();
+      } else if (container?.requestFullscreen) {
+        container.requestFullscreen();
+      }
     });
     renderTour();
   </script>
