@@ -12,5 +12,5 @@ fs.writeFileSync(path.join(output,'.nojekyll'),'');
 fs.cpSync(path.join(root,'assets'),path.join(output,'assets'),{recursive:true});
 for(const name of fs.readdirSync(root))if(name.endsWith('.md'))fs.copyFileSync(path.join(root,name),path.join(output,name));
 const refs=[...html.matchAll(/["'](\.\/assets\/[^"']+)["']/g)].map(match=>match[1]);
-for(const ref of new Set(refs))if(!fs.existsSync(path.join(output,ref)))throw new Error('Asset ausente: '+ref);
+for(const ref of new Set(refs))if(!fs.existsSync(path.join(output,ref.split('?')[0])))throw new Error('Asset ausente: '+ref);
 console.log(`Worket Showcase: site e ${new Set(refs).size} referências de assets verificados em _site/.`);
